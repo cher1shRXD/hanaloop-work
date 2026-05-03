@@ -22,39 +22,23 @@ const KpiSection = ({
 }: Props) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
+  const kpis = [
+    { label: "총 배출량", value: grandTotal, suffix: "t" },
+    { label: `${latestMonth.month} 배출량`, value: latestMonth.total, suffix: "t", delta: latestMonth.delta },
+    { label: "최대 배출원", value: topSource?.total ?? 0, suffix: "t", sub: topSource?.source },
+    { label: "Scope 1 직접배출", value: scope1Pct, suffix: "%", sub: scope1Sub },
+  ];
+
   return (
     <div ref={ref} className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-      <KpiCard
-        label="총 배출량"
-        value={grandTotal}
-        suffix="t"
-        inView={inView}
-        delay={0}
-      />
-      <KpiCard
-        label={`${latestMonth.month} 배출량`}
-        value={latestMonth.total}
-        suffix="t"
-        delta={latestMonth.delta}
-        inView={inView}
-        delay={0.08}
-      />
-      <KpiCard
-        label="최대 배출원"
-        value={topSource?.total ?? 0}
-        suffix="t"
-        sub={topSource?.source}
-        inView={inView}
-        delay={0.16}
-      />
-      <KpiCard
-        label="Scope 1 직접배출"
-        value={scope1Pct}
-        suffix="%"
-        sub={scope1Sub}
-        inView={inView}
-        delay={0.24}
-      />
+      {kpis.map((kpi, index) => (
+        <KpiCard
+          key={kpi.label}
+          {...kpi}
+          inView={inView}
+          delay={index * 0.08}
+        />
+      ))}
     </div>
   );
 };
