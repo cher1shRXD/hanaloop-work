@@ -6,4 +6,7 @@ export const colors = {
   border: 'var(--color-border)',
   surface: 'var(--color-surface)',
   overlay: 'var(--color-overlay)',
+  scope1: 'var(--color-scope-1)',
+  scope2: 'var(--color-scope-2)',
+  scope3: 'var(--color-scope-3)',
 } as const

@@ -4,6 +4,7 @@ import "./globals.css";
 import Sidebar from "@/widgets/sidebar/ui/Sidebar";
 import { LoadingBar } from "@cher1shrxd/loading";
 import { colors } from "@/shared/config/tokens";
+import QueryProvider from "@/shared/providers/QueryProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,11 +19,13 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${pretendard.variable} antialiased`}>
       <body className="font-pretendard bg-background text-text flex items-start">
-        <LoadingBar color={colors.primaryBlue} />
-        <Sidebar />
-        <div className="flex-1">
-          <main className="w-full max-w-7xl mx-auto">{children}</main>
-        </div>
+        <QueryProvider>
+          <LoadingBar color={colors.primaryBlue} />
+          <Sidebar />
+          <div className="flex-1">
+            <main className="w-full max-w-7xl mx-auto">{children}</main>
+          </div>
+        </QueryProvider>
       </body>
     </html>
   );

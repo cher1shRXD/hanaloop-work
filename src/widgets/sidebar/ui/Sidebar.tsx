@@ -1,20 +1,21 @@
 "use client";
 
 import { BatteryPlusIcon, LayoutDashboardIcon } from "lucide-react";
-import { useState } from "react";
 import { motion } from "framer-motion";
-import MenuItem from "./MenuItem";
+import { useDrawerStore } from "../model/useDrawerStore";
 import { transition } from "../constants/transition";
 import HamburgerButton from "./HamburgerButton";
 import Divider from "@/shared/ui/Divider";
+import MenuItem from "./MenuItem";
+import CompanyList from "./CompanyList";
 
 const ROUTES = [
-  { label: "탄소 회계 대시보드", href: "/", icon: LayoutDashboardIcon },
+  { label: "PCF 배출량 분석", href: "/", icon: LayoutDashboardIcon },
   { label: "이달의 탄소 배출량 추가", href: "/input", icon: BatteryPlusIcon },
 ];
 
 const Sidebar = () => {
-  const [minimized, setMinimized] = useState(true);
+  const { minimized, toggleMinimized } = useDrawerStore();
 
   return (
     <aside className="fixed top-0 left-0 h-screen p-4">
@@ -25,13 +26,17 @@ const Sidebar = () => {
       >
         <HamburgerButton
           open={!minimized}
-          onClick={() => setMinimized((prev) => !prev)}
+          onClick={toggleMinimized}
         />
         <Divider />
         <div className="w-full flex flex-col">
           {ROUTES.map((item) => (
             <MenuItem {...item} minimized={minimized} key={item.href} />
           ))}
+        </div>
+        <Divider />
+        <div className="w-full flex flex-col">
+          <CompanyList />
         </div>
       </motion.div>
     </aside>
