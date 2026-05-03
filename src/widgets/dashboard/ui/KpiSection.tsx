@@ -23,7 +23,7 @@ const KpiSection = ({
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <div ref={ref} className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div ref={ref} className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
       <KpiCard
         label="총 배출량"
         value={grandTotal}

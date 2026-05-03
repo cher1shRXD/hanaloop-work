@@ -18,18 +18,18 @@ const Dashboard = ({ companies }: Props) => {
   const data = useDashboardData(companies);
 
   return (
-    <div className="p-8 space-y-4">
+    <div className="p-4 lg:p-8 space-y-4">
       <motion.div
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-        className="flex items-end justify-between pb-8"
+        className="flex flex-col lg:flex-row items-start justify-between gap-2 pb-8"
       >
         <div>
           <p className="text-sm font-semibold text-text/35 uppercase tracking-widest mb-1">
             Carbon Accounting
           </p>
-          <h1 className="text-5xl font-bold text-text">PCF 배출량 분석</h1>
+          <h1 className="text-xl lg:text-5xl font-bold text-text">PCF 배출량 분석</h1>
         </div>
         <span className="text-xs font-medium text-text/40 bg-border/60 rounded-full px-3 py-1.5">
           2024.01 – 2024.06
@@ -42,8 +42,8 @@ const Dashboard = ({ companies }: Props) => {
         topSource={data.topSource}
         scope1Pct={data.scope1Pct}
       />
-      <div className="w-full grid grid-cols-4 gap-4">
-        <TrendSection data={data.monthlyData} className="col-[1/3]" />
+      <div className="w-full grid grid-cols-1 lg:grid-cols-4 gap-4">
+        <TrendSection data={data.monthlyData} className="lg:col-[1/3]" />
         <ScopeDonutSection
           scopeData={data.scopeData}
           scopeTotal={data.scopeTotal}

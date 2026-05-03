@@ -22,7 +22,6 @@ const KpiCard = ({ label, value, suffix = "", sub, delta, inView, delay = 0 }: P
       variants={fadeUp(delay)}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
-      whileHover={{ y: -4, transition: { duration: 0.18 } }}
       className="bg-surface border border-border rounded-2xl overflow-hidden cursor-default"
     >
       <div className="p-5">
