@@ -4,7 +4,7 @@ import { Link } from "@cher1shrxd/loading";
 import { Company } from "@/entities/company/types";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { useDrawerStore } from "../model/useDrawerStore";
+import { useDrawerStore } from "../stores/useDrawerStore";
 import { colors } from "@/shared/config/tokens";
 
 interface Props {

@@ -2,7 +2,7 @@
 
 import { BatteryPlusIcon, LayoutDashboardIcon } from "lucide-react";
 import { motion } from "framer-motion";
-import { useDrawerStore } from "../model/useDrawerStore";
+import { useDrawerStore } from "../stores/useDrawerStore";
 import { transition } from "../constants/transition";
 import HamburgerButton from "./HamburgerButton";
 import Divider from "@/shared/ui/Divider";
