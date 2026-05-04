@@ -1,36 +1,156 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PCF 배출량 분석 대시보드
 
-## Getting Started
+기업별 제품 탄소 발자국(PCF) 및 GHG 배출량 데이터를 시각화하는 웹 대시보드입니다. 경영진과 실무자가 배출량 현황을 파악하고, 월별 추이를 분석하며, 포스트로 분석 내용을 기록할 수 있습니다.
 
-First, run the development server:
+## 실행 방법
+
+[github.com/cher1shRXD/hanaloop-work](https://github.com/cher1shRXD/hanaloop-work) 에서 레포지토리를 클론해주세요.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+pnpm build
+pnpm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+실행 후
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+브라우저에서 [http://localhost:3000](http://localhost:3000) 을 열어주세요.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+단위 테스트 실행:
 
-## Learn More
+```bash
+pnpm test
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 기술 스택
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| 분류 | 라이브러리 |
+|---|---|
+| 프레임워크 | Next.js 16 (App Router) + React 19 + TypeScript |
+| 스타일링 | Tailwind CSS + CSS 커스텀 프로퍼티 (디자인 토큰) |
+| UI 상태 | Zustand |
+| 클라이언트 사이드 데이터 조회 | TanStack Query |
+| 차트 | Recharts |
+| 애니메이션 | Framer Motion |
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 아키텍처 개요
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 레이어 구조 (Feature-Sliced Design)
+
+```
+src/
+├── app/          # Next.js 라우트, 레이아웃, error/loading 경계
+├── widgets/      # 페이지 단위 합성 섹션 (dashboard, sidebar)
+├── features/     # 사용자 시나리오 단위 (add-emission, manage-post)
+├── entities/     # 도메인 모델 + API 어댑터 (company, post, country)
+└── shared/       # UI 기본 컴포넌트, 훅, 설정, 디자인 토큰
+```
+
+### 상태 경계
+
+| 상태 | 저장 위치 | 이유 |
+|---|---|---|
+| 연월 필터 | URL 쿼리 파라미터 (`?yearMonth=`) | URL로 공유 가능, 브라우저 히스토리 지원, 별도 클라이언트 스토어 불필요 |
+| 사이드바 열림/닫힘 | Zustand (`useDrawerStore`) | 라우트와 무관한 레이아웃 UI 상태 |
+| 클라이언트 데이터 캐시 | TanStack Query | 요청 중복 제거 및 백그라운드 리패치 |
+| 폼 상태 | `useActionState` (React 19) | 서버 액션과 네이티브 통합 |
+
+### 데이터 흐름
+
+서버 컴포넌트(`app/page.tsx`, `app/companies/[id]/page.tsx`)에서 `Promise.all`로 데이터를 병렬 페칭한 후 위젯 컴포넌트에 props로 전달합니다. 클라이언트 컴포넌트는 상호작용만 처리합니다(차트 클릭 → URL 파라미터 변경 → 서버 리렌더). 클라이언트 사이드 데이터 워터폴이 없습니다.
+
+---
+
+## 주요 설계 결정
+
+### GhgEmission `scope` 필드 확장
+
+원본 데이터 모델에는 `scope` 필드가 없었습니다. GHG Protocol Corporate Standard에 맞춰 `scope: 1 | 2 | 3`을 추가했습니다.
+
+- **Scope 1** — 직접 배출 (연료 연소: 디젤, 휘발유, LPG, 천연가스)
+- **Scope 2** — 구매 전력에서 발생하는 간접 배출 (국가별 계통 배출계수 적용)
+- **Scope 3** — 가치사슬 배출 (원소재, 물류·운송)
+
+스코프 분류가 있어야 대시보드가 탄소 회계 실무자에게 의미 있는 정보를 제공할 수 있다고 판단했습니다.
+
+### 원시 입력값에서 PCF 계산
+
+사전 계산된 값을 저장하는 대신, `/input` 페이지에서 원시 운영 데이터를 입력받아 공인 배출계수로 tCO₂eq를 직접 계산합니다.
+
+- **연료**: IPCC 2006 Guidelines Vol.2, EPA GHG Factor Hub 2024
+- **전력**: 국가별 계통 배출계수 (미국 0.369, 독일 0.38, 한국 0.4747 kgCO₂/kWh)
+- **원소재**: IPCC 2006 업스트림 공급망 계수
+- **운송**: 중량 × 거리 × 화물 배출계수
+
+계산 로직은 단위 테스트로 검증했습니다(`calc-emissions.test.ts`).
+
+### 월별 필터 (인터랙티브 차트)
+
+추이 차트의 데이터 포인트를 클릭하면 URL에 `?yearMonth=YYYY-MM`이 설정됩니다. KPI 카드, 스코프 분석, 배출원 순위 등 모든 섹션이 필터된 데이터로 서버에서 리렌더됩니다. 필터 상태를 URL로 관리하면 뷰 공유와 브라우저 뒤로가기가 별도 구현 없이 동작합니다.
+
+---
+
+## 렌더링 효율
+
+- 모든 대시보드 페이지가 **서버 컴포넌트** — 데이터 페칭이 서버에서 일어나 클라이언트 워터폴 없음
+- `useMemo`(`useDashboardData`)로 클라이언트 리렌더 시 `processDashboardData` 재계산 방지
+- `useInView`(Intersection Observer)로 화면 밖 섹션의 애니메이션 보류 — 뷰포트 진입 시에만 실행
+- `useCountUp` 숫자 애니메이션도 `inView`가 `true`가 될 때만 시작
+- Recharts `<Area>`의 `isAnimationActive={false}` — Recharts 기본 진입 애니메이션이 SSR 하이드레이션과 충돌하여 비활성화, Framer Motion으로 대체
+
+---
+
+## 가정 사항 (Assumptions)
+
+- 연월 필터는 대시보드 전체에 **전역 적용** — 위젯별 독립 필터 아님
+- 포스트 `dateTime`은 **분석 대상 기간**을 의미하며 생성 시각이 아님
+- 계통 배출계수는 **국가별 고정값** (시간에 따른 변동 미적용)
+- `maybeFail` (15% 무작위 실패)은 명세대로 **쓰기 작업에만** 적용, 읽기는 항상 성공
+- Scope 3 원소재·물류의 `source` 값은 정규화된 코드가 아닌 표시용 레이블로 처리
+
+---
+
+## 트레이드오프 및 단축 사항
+
+- **목 데이터와 API 스텁이 같은 파일에 공존** (`shared/libs/api.ts`) — 실제 서비스에서는 시드 데이터와 API 클라이언트를 분리
+- **포스트 뮤테이션에 낙관적 UI 미적용** — 15% 무작위 실패율을 고려했을 때 롤백 로직의 복잡도 대비 UX 이득이 적다고 판단, `revalidatePath`로 서버 검증
+- **포스트 목록 페이지네이션 없음** — 현재 데이터 규모에서는 불필요
+- **인메모리 목 DB** — 모듈 수준의 `let _posts`는 서버 재시작 시 초기화됨, 실제 서비스에서는 DB로 대체
+
+---
+
+## AI 활용
+
+### 1. 내가 공부해야될게 뭐고 데이터 모델은 어떤걸 나타내는거지? (과제 사진 첨부)
+- 응답: GHG Protocol Scope 1/2/3 개념, PCF (제품 탄소 발자국), 배출계수 (Emission Factor)를 공부해야 한다.
+- 질문 의도: 과제를 통해 "탄소 회계"라는 도메인을 처음 접했기 때문에 과제 이해와 구현을 위해 도메인 지식 공부 범위를 알기 위해 질문했습니다.
+
+### 2. 실무자가 입력하는 값으로는 뭐가 있어야 하지?
+- 응답: 전기 (kWh), 연료 (종류 + 양), 운송 (거리 or ton-km), 원자재 (kg), 분석 대상 년-월을 입력받아야 한다.
+- 질문 의도: PCF 분석 대시보드 앱의 사용 흐름을 확정하고, tCO₂eq를 구하는 계산 식을 세우기 위해 질문했습니다.
+
+### 3. 사이드바를 모바일에서는 완전히 숨기고 햄버거 메뉴로 켤 수 있게 만들어줘.
+- 응답: (구현 내용)
+- 질문 의도: 모바일 반응형에서 사이드바는 불필요하며 제작되지 않은 기능 구현에 집중하기 위해 AI에게 반응형 사이드바 제작을 의뢰했습니다.
+
+### 4. useEffect에서 setTitle(""), setContent("")를 쓸 때 setTimeout으로 감싸지 않아도 되는 방법 알려줘.
+- 응답: startTransition()으로 감싸거나 컴포넌트에 key를 지정해 다시 렌더링하여 값을 초기화하는 방법이 있다.
+- 질문 의도: 최신 리액트 버전에서 useEffect를 통한 내부 상태 변경 시 발생하는 cascading renders 문제를 해결하기 위해 질문했습니다.
+
+### 5. 현재 프로젝트의 코드 품질 평가해줘. 컴포넌트 렌더링 복잡도, 코드 길이, 일관성 등등
+- 응답: (검토 내용)
+- 질문 의도: 코드 상에 남아있는 휴먼에러를 찾고 개발 과정에서 스스로 합리화 했던 코드 품질 저하 원인들을 객관적으로 판단하기 위해 질문했습니다.
+
+---
+
+## 소요 시간 - 16시간 24분
+ - 5/3 AM 11:40 과제 개발 및 도메인 공부 시작
+ - 5/4 AM 00:44 개발 중단 (수면)
+ - 5/4 AM 10:40 개발 재개
+ - 5/4 PM 02:00 개발 종료 및 문서 작성 시작
+ - 5/4 PM 03:17 문서 작성 종료
+
