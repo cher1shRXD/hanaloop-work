@@ -7,13 +7,17 @@ import MaterialInput from "@/features/add-emission/ui/MaterialInput";
 import TransportInput from "@/features/add-emission/ui/TransportInput";
 import Submit from "@/features/add-emission/ui/Submit";
 import PageHeader from "@/shared/ui/PageHeader";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { saveEmission } from "@/features/add-emission/actions/save-emission";
 import CompanyInput from "@/features/add-emission/ui/CompanyInput";
 
 export default function InputPage() {
   const [state, action, isPending] = useActionState(saveEmission, null);
-  
+
+  useEffect(() => {
+    if (state?.error) alert(state.error);
+  }, [state]);
+
   return (
     <form action={action} className="w-full max-w-lg mx-auto md:h-svh flex flex-col gap-6 justify-center">
       <PageHeader category="Add Emission" title="이달의 탄소 배출량 추가" />

@@ -149,6 +149,7 @@ export async function saveEmission(
   emission: GhgEmission,
 ): Promise<void> {
   await delay(jitter());
+  if (maybeFail()) throw new Error("Save failed");
   const company = _companies.find((c) => c.id === companyId);
   if (!company) throw new Error(`Company not found: ${companyId}`);
   company.emissions = [...company.emissions, emission];
