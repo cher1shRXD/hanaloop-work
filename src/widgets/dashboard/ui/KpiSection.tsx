@@ -18,7 +18,7 @@ const KpiSection = ({
   latestMonth,
   topSource,
   scope1Pct,
-  scope1Sub = "diesel · lpg · natural gas",
+  scope1Sub = "",
 }: Props) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 

@@ -28,6 +28,10 @@ export default async function HomePage() {
     scopeTotal > 0
       ? Math.round(((scopeData.find((d) => d.scope === 1)?.total ?? 0) / scopeTotal) * 100)
       : 0;
+  const scope1Sub = sourceData
+    .filter((d) => d.scope === 1)
+    .map((d) => d.source)
+    .join(" · ");
 
   return (
     <div className="p-4 lg:p-8 space-y-4">
@@ -38,6 +42,7 @@ export default async function HomePage() {
         latestMonth={latestMonth}
         topSource={topSource}
         scope1Pct={scope1Pct}
+        scope1Sub={scope1Sub}
       />
 
       <div className="w-full grid grid-cols-1 lg:grid-cols-4 gap-4">
