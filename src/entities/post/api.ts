@@ -1,4 +1,4 @@
-import { createOrUpdatePost, fetchPosts } from "@/shared/libs/api"
+import { createOrUpdatePost, fetchPosts, fetchPostById, deletePost } from "@/shared/libs/api"
 import { Post } from "./types";
 
 export const PostApi = {
@@ -6,7 +6,15 @@ export const PostApi = {
     return await fetchPosts();
   },
 
-  async savePost(payload: Omit<Post, "id">) {
+  async getById(id: string) {
+    return await fetchPostById(id);
+  },
+
+  async savePost(payload: Omit<Post, "id"> & { id?: string }) {
     return await createOrUpdatePost(payload);
+  },
+
+  async delete(id: string) {
+    return await deletePost(id);
   }
 }

@@ -2,7 +2,7 @@
 
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
-import ChartCard from "./ChartCard";
+import SectionCard from "../../../shared/ui/SectionCard";
 import { SCOPE_COLORS } from "../constants/scope-colors";
 import { SCOPE_LABELS } from "../constants/scope-labels";
 import type { SourceRow } from "../utils/get-source-data";
@@ -16,7 +16,7 @@ const ScopeSection = ({ sourceData }: Props) => {
 
   return (
     <div ref={ref}>
-      <ChartCard title="스코프별 배출원 상세" inView={inView} delay={0}>
+      <SectionCard title="스코프별 배출원 상세" inView={inView} delay={0} className="h-full">
         <div className="space-y-5">
           {[1, 2, 3].map((s, si) => {
             const sources = sourceData.filter((d) => d.scope === s);
@@ -49,7 +49,7 @@ const ScopeSection = ({ sourceData }: Props) => {
             );
           })}
         </div>
-      </ChartCard>
+      </SectionCard>
     </div>
   );
 };

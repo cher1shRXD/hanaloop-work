@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { fadeUp } from "../../../shared/utils/fade-up";
+import { fadeUp } from "../utils/fade-up";
 
 interface Props {
   title: string;
@@ -14,7 +14,7 @@ interface Props {
   action?: React.ReactNode;
 }
 
-const ChartCard = ({ title, hint, total, inView, delay = 0, className = "", children, action }: Props) => (
+const SectionCard = ({ title, hint, total, inView, delay = 0, className = "", children, action }: Props) => (
   <motion.div
     variants={fadeUp(delay)}
     initial="hidden"
@@ -40,4 +40,4 @@ const ChartCard = ({ title, hint, total, inView, delay = 0, className = "", chil
   </motion.div>
 );
 
-export default ChartCard;
+export default SectionCard;

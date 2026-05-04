@@ -8,7 +8,7 @@ import HamburgerButton from "./HamburgerButton";
 import Divider from "@/shared/ui/Divider";
 import MenuItem from "./MenuItem";
 import CompanyList from "./CompanyList";
-
+import { MenuIcon } from "lucide-react";
 import { useMatchMedia } from "@/shared/hooks/useMatchMedia";
 import { AnimatePresence } from "framer-motion";
 
@@ -16,8 +16,6 @@ const ROUTES = [
   { label: "PCF 배출량 분", href: "/", icon: LayoutDashboardIcon },
   { label: "이달의 탄소 배출량 추가", href: "/input", icon: BatteryPlusIcon },
 ];
-
-import { MenuIcon } from "lucide-react";
 
 const Sidebar = () => {
   const isMobile = useMatchMedia(768);

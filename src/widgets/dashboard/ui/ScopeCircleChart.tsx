@@ -2,7 +2,7 @@
 
 import { useInView } from "react-intersection-observer";
 import { PieChart, Pie, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import ChartCard from "./ChartCard";
+import SectionCard from "../../../shared/ui/SectionCard";
 import { SCOPE_COLORS } from "../constants/scope-colors";
 import { tooltipStyle, tooltipTextStyle } from "../constants/tooltip-style";
 import { colors } from "@/shared/config/tokens";
@@ -19,7 +19,7 @@ const ScopeCircleChart = ({ scopeData, scopeTotal }: Props) => {
 
   return (
     <div ref={ref}>
-      <ChartCard title="스코프별 비교" total={scopeTotal} inView={inView} delay={0}>
+      <SectionCard title="스코프별 비교" total={scopeTotal} inView={inView} delay={0}>
         <ResponsiveContainer width="100%" height={242}>
           <PieChart>
             <Pie data={coloredData} dataKey="total" nameKey="name" cx="50%" cy="50%"
@@ -28,7 +28,7 @@ const ScopeCircleChart = ({ scopeData, scopeTotal }: Props) => {
             <Legend formatter={(v) => <span style={{ fontSize: 11, color: colors.text }}>{v}</span>} iconType="circle" iconSize={8} />
           </PieChart>
         </ResponsiveContainer>
-      </ChartCard>
+      </SectionCard>
     </div>
   );
 };

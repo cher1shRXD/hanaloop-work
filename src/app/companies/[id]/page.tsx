@@ -1,10 +1,12 @@
 import { CompanyApi } from "@/entities/company/api";
+import { PostApi } from "@/entities/post/api";
 import PageHeader from "@/shared/ui/PageHeader";
 import KpiSection from "@/widgets/dashboard/ui/KpiSection";
 import ScopeCircleChart from "@/widgets/dashboard/ui/ScopeCircleChart";
 import ScopeSection from "@/widgets/dashboard/ui/ScopeSection";
 import SourceSection from "@/widgets/dashboard/ui/SourceSection";
 import TrendSection from "@/widgets/dashboard/ui/TrendSection";
+import CompanyPostManagement from "@/features/manage-post/ui/CompanyPostManagement";
 import { processDashboardData } from "@/widgets/dashboard/utils/process-dashboard-data";
 import { notFound } from "next/navigation";
 
@@ -16,7 +18,11 @@ interface Props {
 export default async function CompanyDetailPage({ params, searchParams }: Props) {
   const { id } = await params;
   const { yearMonth } = await searchParams;
-  const company = await CompanyApi.getById(id);
+  
+  const [company, allPosts] = await Promise.all([
+    CompanyApi.getById(id),
+    PostApi.getList(),
+  ]);
 
   if (!company) {
     notFound();
@@ -57,6 +63,12 @@ export default async function CompanyDetailPage({ params, searchParams }: Props)
         <SourceSection sourceData={sourceData} hint={`${company.name} 배출원별 비중`} />
         <ScopeSection sourceData={sourceData} />
       </div>
+
+      <CompanyPostManagement 
+        companyId={id} 
+        yearMonth={yearMonth ?? ""} 
+        posts={allPosts} 
+      />
     </div>
   );
 }

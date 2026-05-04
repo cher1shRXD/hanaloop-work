@@ -2,7 +2,7 @@
 
 import { useInView } from "react-intersection-observer";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, MouseHandlerDataParam } from "recharts";
-import ChartCard from "./ChartCard";
+import SectionCard from "../../../shared/ui/SectionCard";
 import { tooltipStyle, tooltipTextStyle } from "../constants/tooltip-style";
 import { colors } from "@/shared/config/tokens";
 import type { MonthlyRow } from "../utils/get-monthly-data";
@@ -42,14 +42,14 @@ const TrendSection = ({ data, hint = "전 회사 합산 · tCO₂eq", className 
 
   return (
     <div ref={ref} className={className}>
-      <ChartCard 
+      <SectionCard 
         title={currentYearMonth ? `${currentYearMonth} 분석 데이터` : "월별 총 배출량 추이"} 
         hint={currentYearMonth ? "전체 분석을 누르면 모든 기간 데이터를 봅니다" : hint} 
         inView={inView}
         action={currentYearMonth ? (
           <button 
             onClick={handleReset}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primaryBlue text-white text-xs font-bold hover:bg-primaryBlue/80 transition-colors shadow-lg shadow-primaryBlue/20"
+            className="flex items-center gap-1.5 rounded-lg  text-white text-xs font-bold cursor-pointer"
           >
             <RotateCcwIcon size={12} />
             전체 분석
@@ -102,7 +102,7 @@ const TrendSection = ({ data, hint = "전 회사 합산 · tCO₂eq", className 
             />
           </AreaChart>
         </ResponsiveContainer>
-      </ChartCard>
+      </SectionCard>
     </div>
   );
 };

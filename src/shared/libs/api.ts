@@ -27,13 +27,13 @@ export const companies: Company[] = [
       { yearMonth: "2024-01", source: "철강", scope: 3, emissions: 48 },
       { yearMonth: "2024-01", source: "플라스틱", scope: 3, emissions: 22 },
       { yearMonth: "2024-01", source: "전력", scope: 2, emissions: 65 },
-      { yearMonth: "2024-01", source: "천연가스", scope: 1, emissions: 38 },
-      { yearMonth: "2024-01", source: "디젤", scope: 1, emissions: 82 },
+      { yearMonth: "2024-01", source: "천연가스", scope: 1, emissions: 10 },
+      { yearMonth: "2024-01", source: "디젤", scope: 1, emissions: 15 },
       { yearMonth: "2024-01", source: "물류·운송", scope: 3, emissions: 30 },
 
       { yearMonth: "2024-02", source: "철강", scope: 3, emissions: 52 },
       { yearMonth: "2024-02", source: "플라스틱", scope: 3, emissions: 25 },
-      { yearMonth: "2024-02", source: "전력", scope: 2, emissions: 70 },
+      { yearMonth: "2024-02", source: "전력", scope: 2, emissions: 170 },
       { yearMonth: "2024-02", source: "천연가스", scope: 1, emissions: 42 },
       { yearMonth: "2024-02", source: "디젤", scope: 1, emissions: 88 },
       { yearMonth: "2024-02", source: "물류·운송", scope: 3, emissions: 28 },
@@ -142,6 +142,16 @@ export async function fetchCompanies() {
 export async function fetchPosts() {
   await delay(jitter());
   return _posts;
+}
+
+export async function fetchPostById(id: string) {
+  await delay(jitter());
+  return _posts.find((p) => p.id === id);
+}
+
+export async function deletePost(id: string) {
+  await delay(jitter());
+  _posts = _posts.filter((p) => p.id !== id);
 }
 
 export async function saveEmission(

@@ -9,7 +9,7 @@ import { FC } from "react";
 interface Props {
   label: string;
   href: string;
-  icon: FC<{ color: string }>;
+  icon: FC<{ color: string, strokeWidth: number }>;
   minimized: boolean;
 }
 
@@ -22,7 +22,7 @@ const MenuItem = ({ label, href, icon, minimized }: Props) => {
     <Link href={href} className="w-full h-10">
       <div className="w-full h-full flex items-center p-2 rounded-xl hover:bg-surface">
         <div className="shrink-0">
-          <Icon color={isCurrentPath ? colors.primaryBlue : colors.text} />
+          <Icon color={isCurrentPath ? colors.primaryBlue : colors.text} strokeWidth={1.5} />
         </div>
         <motion.div
           animate={{ width: minimized ? 0 : 220, opacity: minimized ? 0 : 1, paddingLeft: minimized ? 0 : 8 }}
