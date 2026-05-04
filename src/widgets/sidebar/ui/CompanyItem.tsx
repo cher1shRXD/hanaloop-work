@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "@cher1shrxd/loading";
+import Link from "next/link";
 import { Company } from "@/entities/company/types";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";

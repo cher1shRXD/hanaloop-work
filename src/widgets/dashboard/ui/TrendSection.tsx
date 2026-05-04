@@ -8,7 +8,7 @@ import { colors } from "@/shared/config/tokens";
 import type { MonthlyRow } from "../utils/get-monthly-data";
 import { useSearchParams } from "next/navigation";
 import { RotateCcwIcon } from "lucide-react";
-import { useRouter } from "@cher1shrxd/loading";
+import { useRouter } from "next/navigation";
 
 interface Props {
   data: MonthlyRow[];
