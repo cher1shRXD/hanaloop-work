@@ -19,7 +19,7 @@ export default function InputPage() {
   }, [state]);
 
   return (
-    <form action={action} className="w-full max-w-lg mx-auto md:h-svh flex flex-col gap-6 justify-center">
+    <form action={action} className="w-full max-w-lg mx-auto md:h-svh flex flex-col gap-6 justify-center p-4">
       <PageHeader category="Add Emission" title="이달의 탄소 배출량 추가" />
       <CompanyInput />
       <MaterialInput />

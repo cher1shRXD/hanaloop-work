@@ -21,8 +21,11 @@ const Sidebar = () => {
   const isMobile = useMatchMedia(768);
   const { minimized, toggleMinimized, setMinimized } = useDrawerStore();
 
+  if (isMobile === null) return null;
+
   const sidebarContent = (
     <motion.div
+      initial={{ width: isMobile ? 280 : (minimized ? 56 : 280) }}
       animate={{ width: isMobile ? 280 : (minimized ? 56 : 280) }}
       transition={transition}
       className={`h-full bg-surface/80 backdrop-blur-md rounded-2xl p-2 flex flex-col gap-2 items-start overflow-hidden border border-border/50 shadow-xl`}

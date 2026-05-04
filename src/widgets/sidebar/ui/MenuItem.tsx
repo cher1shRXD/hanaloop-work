@@ -25,6 +25,7 @@ const MenuItem = ({ label, href, icon, minimized }: Props) => {
           <Icon color={isCurrentPath ? colors.primaryBlue : colors.text} strokeWidth={1.5} />
         </div>
         <motion.div
+          initial={{ width: minimized ? 0 : 220, opacity: minimized ? 0 : 1, paddingLeft: minimized ? 0 : 8 }}
           animate={{ width: minimized ? 0 : 220, opacity: minimized ? 0 : 1, paddingLeft: minimized ? 0 : 8 }}
           transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
           className="overflow-hidden shrink-0"
