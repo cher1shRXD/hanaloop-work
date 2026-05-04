@@ -2,7 +2,7 @@
 
 import { useInView } from "react-intersection-observer";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import SectionCard from "../../../shared/ui/SectionCard";
+import SectionCard from "@/shared/ui/SectionCard";
 import { SCOPE_COLORS } from "../constants/scope-colors";
 import { SCOPE_LABELS } from "../constants/scope-labels";
 import { tooltipStyle, tooltipTextStyle } from "../constants/tooltip-style";

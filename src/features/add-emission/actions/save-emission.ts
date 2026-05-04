@@ -6,6 +6,7 @@ import { FIELD_NAMES } from "../constants/field-names";
 import { redirect } from "next/navigation";
 import { EmissionInput } from "../types/emission-input";
 import { parseEncodedFactor, calcEmissions } from "../lib/calc-emissions";
+import { ActionState } from "@/shared/types/action-state";
 
 const parseForm = (formData: FormData): EmissionInput => {
   const fuel = parseEncodedFactor(formData.get(FIELD_NAMES.fuelType) as string);
@@ -24,8 +25,6 @@ const parseForm = (formData: FormData): EmissionInput => {
     },
   };
 };
-
-type ActionState = { error: string } | null;
 
 export const saveEmission = async (_: ActionState, formData: FormData): Promise<ActionState> => {
   const input = parseForm(formData);

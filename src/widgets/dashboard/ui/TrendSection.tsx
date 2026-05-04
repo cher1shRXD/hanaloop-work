@@ -2,7 +2,7 @@
 
 import { useInView } from "react-intersection-observer";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, MouseHandlerDataParam } from "recharts";
-import SectionCard from "../../../shared/ui/SectionCard";
+import SectionCard from "@/shared/ui/SectionCard";
 import { tooltipStyle, tooltipTextStyle } from "../constants/tooltip-style";
 import { colors } from "@/shared/config/tokens";
 import type { MonthlyRow } from "../utils/get-monthly-data";

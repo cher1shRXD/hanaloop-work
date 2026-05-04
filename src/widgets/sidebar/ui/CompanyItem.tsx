@@ -9,7 +9,6 @@ import { colors } from "@/shared/config/tokens";
 
 interface Props {
   data: Company;
-  index: number;
 }
 
 const CompanyItem = ({ data }: Props) => {

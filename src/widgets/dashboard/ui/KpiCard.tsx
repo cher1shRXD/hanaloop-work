@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { fadeUp } from "../../../shared/utils/fade-up";
+import { fadeUp } from "@/shared/utils/fade-up";
 import { useCountUp } from "../hooks/useCountUp";
 
 interface Props {

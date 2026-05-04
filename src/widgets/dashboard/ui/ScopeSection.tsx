@@ -2,7 +2,7 @@
 
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
-import SectionCard from "../../../shared/ui/SectionCard";
+import SectionCard from "@/shared/ui/SectionCard";
 import { SCOPE_COLORS } from "../constants/scope-colors";
 import { SCOPE_LABELS } from "../constants/scope-labels";
 import type { SourceRow } from "../utils/get-source-data";

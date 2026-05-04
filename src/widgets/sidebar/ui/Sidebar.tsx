@@ -1,19 +1,17 @@
 "use client";
 
-import { BatteryPlusIcon, LayoutDashboardIcon } from "lucide-react";
-import { motion } from "framer-motion";
+import { BatteryPlusIcon, LayoutDashboardIcon, MenuIcon } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useDrawerStore } from "../stores/useDrawerStore";
 import { transition } from "../constants/transition";
 import HamburgerButton from "./HamburgerButton";
 import Divider from "@/shared/ui/Divider";
 import MenuItem from "./MenuItem";
 import CompanyList from "./CompanyList";
-import { MenuIcon } from "lucide-react";
 import { useMatchMedia } from "@/shared/hooks/useMatchMedia";
-import { AnimatePresence } from "framer-motion";
 
 const ROUTES = [
-  { label: "PCF 배출량 분", href: "/", icon: LayoutDashboardIcon },
+  { label: "PCF 배출량 분석", href: "/", icon: LayoutDashboardIcon },
   { label: "이달의 탄소 배출량 추가", href: "/input", icon: BatteryPlusIcon },
 ];
 

@@ -2,8 +2,7 @@
 import { PostApi } from "@/entities/post/api";
 import { revalidatePath } from "next/cache";
 import { FIELD_NAMES } from "../constants/field-names";
-
-type ActionState = { error?: string; success?: boolean } | null;
+import { ActionState } from "@/shared/types/action-state";
 
 export const savePost = async (_: ActionState, formData: FormData): Promise<ActionState> => {
   const id = formData.get(FIELD_NAMES.id) as string;

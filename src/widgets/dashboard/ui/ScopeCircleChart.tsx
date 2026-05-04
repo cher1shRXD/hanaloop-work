@@ -2,7 +2,7 @@
 
 import { useInView } from "react-intersection-observer";
 import { PieChart, Pie, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import SectionCard from "../../../shared/ui/SectionCard";
+import SectionCard from "@/shared/ui/SectionCard";
 import { SCOPE_COLORS } from "../constants/scope-colors";
 import { tooltipStyle, tooltipTextStyle } from "../constants/tooltip-style";
 import { colors } from "@/shared/config/tokens";

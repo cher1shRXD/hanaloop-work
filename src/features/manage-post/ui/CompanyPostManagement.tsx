@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { Post } from "@/entities/post/types";
-import PostListSection from "./PostListSection";
-import PostFormSection from "./PostFormSection";
+import PostList from "./PostList";
+import PostForm from "./PostForm";
 
 interface Props {
   companyId: string;
@@ -13,6 +13,7 @@ interface Props {
 
 const CompanyPostManagement = ({ companyId, yearMonth, posts }: Props) => {
   const [editingPost, setEditingPost] = useState<Post | null>(null);
+  const today = new Date();
 
   const filteredPosts = posts.filter(
     (p) => p.resourceUid === companyId && (!yearMonth || p.dateTime === yearMonth)
@@ -20,14 +21,15 @@ const CompanyPostManagement = ({ companyId, yearMonth, posts }: Props) => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <PostListSection 
+      <PostList 
         posts={filteredPosts} 
         yearMonth={yearMonth} 
         onEdit={setEditingPost}
       />
-      <PostFormSection 
-        companyId={companyId} 
-        yearMonth={yearMonth || "2026-06"}
+      <PostForm
+        key={editingPost?.id ?? "new"}
+        companyId={companyId}
+        yearMonth={yearMonth || `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2, "0")}`}
         editingPost={editingPost}
         onCancelEdit={() => setEditingPost(null)}
       />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useState, startTransition } from "react";
 import { Post } from "@/entities/post/types";
 import { savePost } from "../actions/post-actions";
 import Input from "@/shared/ui/Input";
@@ -17,35 +17,23 @@ interface Props {
   onCancelEdit?: () => void;
 }
 
-const PostFormSection = ({
+const PostForm = ({
   companyId,
   yearMonth,
   editingPost,
   onCancelEdit,
 }: Props) => {
   const [state, action, isPending] = useActionState(savePost, null);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState(editingPost?.title ?? "");
+  const [content, setContent] = useState(editingPost?.content ?? "");
 
   useEffect(() => {
-    setTimeout(() => {
-      if (editingPost) {
-        setTitle(editingPost.title);
-        setContent(editingPost.content);
-      } else {
+    if (state?.success && !editingPost) {
+      startTransition(() => {
         setTitle("");
         setContent("");
-      }
-    }, 0);
-  }, [editingPost]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (state?.success && !editingPost) {
-        setTitle("");
-        setContent("");
-      }
-    }, 0);
+      });
+    }
   }, [state, editingPost]);
 
   useEffect(() => {
@@ -112,4 +100,4 @@ const PostFormSection = ({
   );
 };
 
-export default PostFormSection;
+export default PostForm;

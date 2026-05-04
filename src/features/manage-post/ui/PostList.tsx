@@ -4,17 +4,17 @@ import { Post } from "@/entities/post/types";
 import { MessageSquareIcon, CalendarIcon, Trash2Icon, PencilIcon } from "lucide-react";
 import SectionCard from "@/shared/ui/SectionCard";
 import { deletePostAction } from "../actions/post-actions";
-
 interface Props {
   posts: Post[];
   yearMonth?: string;
   onEdit?: (post: Post) => void;
 }
 
-const PostListSection = ({ posts, yearMonth, onEdit }: Props) => {
+const PostList = ({ posts, yearMonth, onEdit }: Props) => {
   const handleDelete = async (id: string, resourceUid: string) => {
     if (confirm("정말로 이 포스트를 삭제하시겠습니까?")) {
-      await deletePostAction(id, resourceUid);
+      const result = await deletePostAction(id, resourceUid);
+      if (result?.error) alert(result.error);
     }
   };
 
@@ -73,4 +73,4 @@ const PostListSection = ({ posts, yearMonth, onEdit }: Props) => {
   );
 };
 
-export default PostListSection;
+export default PostList;
