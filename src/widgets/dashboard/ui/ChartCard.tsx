@@ -11,9 +11,10 @@ interface Props {
   delay?: number;
   className?: string;
   children: React.ReactNode;
+  action?: React.ReactNode;
 }
 
-const ChartCard = ({ title, hint, total, inView, delay = 0, className = "", children }: Props) => (
+const ChartCard = ({ title, hint, total, inView, delay = 0, className = "", children, action }: Props) => (
   <motion.div
     variants={fadeUp(delay)}
     initial="hidden"
@@ -25,12 +26,15 @@ const ChartCard = ({ title, hint, total, inView, delay = 0, className = "", chil
         <p className="text-[11px] font-semibold text-text/40 uppercase tracking-widest">{title}</p>
         {hint && <p className="text-[11px] text-text/25 mt-0.5">{hint}</p>}
       </div>
-      {total != null && (
-        <div className="text-right">
-          <p className="text-sm font-bold text-text leading-none">{total.toLocaleString()}</p>
-          <p className="text-[10px] text-text/35 mt-1">tCO₂</p>
-        </div>
-      )}
+      <div className="flex items-center gap-3">
+        {action}
+        {total != null && (
+          <div className="text-right">
+            <p className="text-sm font-bold text-text leading-none">{total.toLocaleString()}</p>
+            <p className="text-[10px] text-text/35 mt-1">tCO₂</p>
+          </div>
+        )}
+      </div>
     </div>
     {children}
   </motion.div>

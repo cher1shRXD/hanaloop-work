@@ -13,7 +13,7 @@ interface Props {
   scopeTotal: number;
 }
 
-const ScopeDonutSection = ({ scopeData, scopeTotal }: Props) => {
+const ScopeCircleChart = ({ scopeData, scopeTotal }: Props) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const coloredData = scopeData.map((d) => ({ ...d, fill: SCOPE_COLORS[d.scope] }));
 
@@ -33,4 +33,4 @@ const ScopeDonutSection = ({ scopeData, scopeTotal }: Props) => {
   );
 };
 
-export default ScopeDonutSection;
+export default ScopeCircleChart;

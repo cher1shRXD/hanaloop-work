@@ -13,7 +13,7 @@ interface Props {
   grandTotal: number;
 }
 
-const CompanyDonutSection = ({ companyData, grandTotal }: Props) => {
+const CompanyCircleChart = ({ companyData, grandTotal }: Props) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const coloredData = companyData.map((d, i) => ({ ...d, fill: COMPANY_COLORS[i % COMPANY_COLORS.length] }));
 
@@ -33,4 +33,4 @@ const CompanyDonutSection = ({ companyData, grandTotal }: Props) => {
   );
 };
 
-export default CompanyDonutSection;
+export default CompanyCircleChart;

@@ -22,7 +22,7 @@ export default function RootLayout({
         <QueryProvider>
           <LoadingBar color={colors.primaryBlue} />
           <Sidebar />
-          <div className="flex-1">
+          <div className="flex-1 min-h-screen">
             <main className="w-full max-w-7xl mx-auto pb-16 md:pb-0 md:pl-18">{children}</main>
           </div>
         </QueryProvider>

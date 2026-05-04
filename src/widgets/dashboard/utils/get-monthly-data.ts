@@ -1,6 +1,6 @@
 import { Company } from "@/entities/company/types";
 
-export type MonthlyRow = { label: string; total: number };
+export type MonthlyRow = { label: string; total: number; yearMonth: string };
 
 export const getMonthlyData = (companies: Company[]): MonthlyRow[] => {
   const map = new Map<string, number>();
@@ -13,5 +13,6 @@ export const getMonthlyData = (companies: Company[]): MonthlyRow[] => {
     .map(([ym, total]) => ({
       label: `${parseInt(ym.split("-")[1])}월`,
       total: Math.round(total),
+      yearMonth: ym,
     }));
 };
