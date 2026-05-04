@@ -1,7 +1,7 @@
 import { CompanyApi } from "@/entities/company/api";
 import { SCOPE_LABELS } from "@/widgets/dashboard/constants/scope-labels";
 import CompanyDonutSection from "@/widgets/dashboard/ui/CompanyDonutSection";
-import DashboardHeader from "@/widgets/dashboard/ui/DashboardHeader";
+import PageHeader from "@/shared/ui/PageHeader";
 import KpiSection from "@/widgets/dashboard/ui/KpiSection";
 import ScopeDonutSection from "@/widgets/dashboard/ui/ScopeDonutSection";
 import ScopeSection from "@/widgets/dashboard/ui/ScopeSection";
@@ -31,7 +31,7 @@ export default async function HomePage() {
 
   return (
     <div className="p-4 lg:p-8 space-y-4">
-      <DashboardHeader category="Carbon Accounting" title="PCF 배출량 분석" />
+      <PageHeader category="Carbon Accounting" title="PCF 배출량 분석" />
 
       <KpiSection
         grandTotal={grandTotal}

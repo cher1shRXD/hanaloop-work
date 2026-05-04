@@ -39,3 +39,13 @@
 * {
   outline: none;
 }
+
+input[type="month"] {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  &::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+  }
+}

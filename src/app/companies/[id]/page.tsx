@@ -1,6 +1,6 @@
 import { CompanyApi } from "@/entities/company/api";
 import { SCOPE_LABELS } from "@/widgets/dashboard/constants/scope-labels";
-import DashboardHeader from "@/widgets/dashboard/ui/DashboardHeader";
+import PageHeader from "@/shared/ui/PageHeader";
 import KpiSection from "@/widgets/dashboard/ui/KpiSection";
 import ScopeDonutSection from "@/widgets/dashboard/ui/ScopeDonutSection";
 import ScopeSection from "@/widgets/dashboard/ui/ScopeSection";
@@ -42,7 +42,7 @@ export default async function CompanyDetailPage({ params }: Props) {
 
   return (
     <div className="lg:p-8 p-4 space-y-4">
-      <DashboardHeader category="Company Analysis" title={`${company.name} 상세 분석`} />
+      <PageHeader category="Company Analysis" title={`${company.name} 상세 분석`} />
 
       <KpiSection
         grandTotal={grandTotal}

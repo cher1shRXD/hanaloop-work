@@ -8,7 +8,7 @@ interface Props {
   period?: string;
 }
 
-const DashboardHeader = ({ category, title, period = "2024.01 – 2024.06" }: Props) => (
+const PageHeader = ({ category, title, period }: Props) => (
   <motion.div
     initial={{ opacity: 0, y: -12 }}
     animate={{ opacity: 1, y: 0 }}
@@ -21,10 +21,12 @@ const DashboardHeader = ({ category, title, period = "2024.01 – 2024.06" }: Pr
       </p>
       <h1 className="text-xl lg:text-5xl font-bold text-text">{title}</h1>
     </div>
-    <span className="text-xs font-medium text-text/40 bg-border/60 rounded-full px-3 py-1.5">
-      {period}
-    </span>
+    {period && (
+      <span className="text-xs font-medium text-text/40 bg-border/60 rounded-full px-3 py-1.5">
+        {period}
+      </span>
+    )}
   </motion.div>
 );
 
-export default DashboardHeader;
+export default PageHeader;

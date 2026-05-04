@@ -2,19 +2,19 @@
 
 import { InputHTMLAttributes, ReactNode } from "react";
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
+interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, "prefix"> {
   label?: string;
   error?: string;
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
+  prefix?: ReactNode;
+  suffix?: ReactNode;
   containerClassName?: string;
 }
 
 const Input = ({
   label,
   error,
-  leftIcon,
-  rightIcon,
+  prefix,
+  suffix,
   className = "",
   containerClassName = "",
   ...props
@@ -28,9 +28,9 @@ const Input = ({
       )}
       
       <div className="relative flex items-center">
-        {leftIcon && (
+        {prefix && (
           <div className="absolute left-3 text-text/30 pointer-events-none">
-            {leftIcon}
+            {prefix}
           </div>
         )}
         
@@ -38,17 +38,17 @@ const Input = ({
           className={`
             w-full h-11 bg-surface border border-border rounded-xl px-4 text-sm text-text transition-all
             placeholder:text-text/25 focus:outline-none focus:ring-2 focus:ring-primary-blue/20 focus:border-primary-blue
-            ${leftIcon ? "pl-10" : ""}
-            ${rightIcon ? "pr-10" : ""}
+            ${prefix ? "pl-10" : ""}
+            ${suffix ? "pr-10" : ""}
             ${error ? "border-red-400 focus:ring-red-400/10 focus:border-red-400" : ""}
             ${className}
           `}
           {...props}
         />
         
-        {rightIcon && (
+        {suffix && (
           <div className="absolute right-3 text-text/30 pointer-events-none">
-            {rightIcon}
+            {suffix}
           </div>
         )}
       </div>
